@@ -20,7 +20,7 @@ othello_ai/
 <h3 style="color:#2E86C1;">Folders Description</h3>
 <ul>
   <li><strong>core/</strong> - Game engine logic (board, moves, flipping, game state, constants)</li>
-  <li><strong>ai/</strong> - AI components (minimax, evaluation, move generator, base agent)</li>
+  <li><strong>ai/</strong> - AI components (minimax(Alpha–Beta pruning), evaluation, move generator, base agent)</li>
   <li><strong>ui/</strong> - Console-based interface</li>
   <li><strong>utils/</strong> - Utilities like logging</li>
   <li><strong>modes/</strong> - Game modes: Player vs Player, Player vs AI, AI vs AI</li>
