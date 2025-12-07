@@ -1,0 +1,56 @@
+# modes/player_vs_player.py
+
+from core.game_state import GameState
+from core.constants import BLACK, WHITE
+
+
+class PlayerVsPlayerMode:
+    """
+    مود لاعب ضد لاعب (اتنين بشر).
+    الـ GUI يمسّك object من الكلاس ده،
+    وكل ما لاعب يضغط على مربع، نستدعي handle_click(row, col).
+    """
+
+    def __init__(self):
+        self.state = GameState()  # حالة اللعبة
+
+    def handle_click(self, row: int, col: int):
+        """
+        يستدعيها الـ GUI لما اللاعب (أيًّا كان لونه) يضغط على مربع.
+        """
+        if self.state.game_over:
+            return {
+                "success": False,
+                "reason": "game_over",
+                "game_over": True,
+                "winner": self.state.winner,
+            }
+
+        success = self.state.apply_move(row, col)
+
+        if not success:
+            # كليك في مكان غلط
+            return {
+                "success": False,
+                "reason": "invalid_move",
+                "game_over": self.state.game_over,
+                "winner": self.state.winner,
+            }
+
+        # لو الحركة صح، الـ GameState جوا self.state اتحدّث
+        return {
+            "success": True,
+            "reason": None,
+            "game_over": self.state.game_over,
+            "winner": self.state.winner,
+            "current_player": self.state.current_player,
+            "valid_moves": self.state.board.get_valid_moves(self.state.current_player),
+        }
+
+    def get_board(self):
+        """يرجع البورد الحالي عشان الـ GUI يرسمه."""
+        return self.state.board.grid
+
+    def get_current_player(self):
+        """مين دوره يلعب دلوقتي (BLACK أو WHITE)."""
+        return self.state.current_player
